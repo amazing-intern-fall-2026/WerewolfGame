@@ -1,67 +1,20 @@
 using System.Collections;
 using UnityEngine;
 
-//public class PhaseManger : MonoBehaviour
-//{
-//    // Start is called once before the first execution of Update after the MonoBehaviour is created
-//    public static PhaseManger Instance;
-//    private void Awake()
-//    {
-//        Instance = this;
-//    }
-//    public void StartRoleReveal()
-//    {
-//        StartCoroutine(RoleRevealRoutine());
-//    }
-//    IEnumerator RoleRevealRoutine()
-//    {
-//        GameManager.Instance.SetPhase(GamePhase.RoleReveal);
-//        yield return new WaitForSeconds(5);
-//        StartDay();
-//    }
-//    private void StartDay()
-//    {
-//        StartCoroutine(DayRountine());
-//    }
-//    IEnumerator DayRountine()
-//    {
-//        GameManager.Instance.SetPhase(GamePhase.DayStart);
-//        Debug.Log("DAY"+GameManager.Instance.currentDay);
-//        yield return new WaitForSeconds(2);
-//        StartEvent();
-//    }
-//    void StartEvent()
-//    {
-//        GameManager.Instance.SetPhase(GamePhase.Event);
-//        EventManagert.Instance.TryStartEvent();
-//        StartDiscussion();
-//    }
-//    private void StartDiscussion()
-//    {
-//        StartCoroutine(DisscusionRoutine());
-//    }
-//     IEnumerator DisscusionRoutine()
-//        {
-//            GameManager.Instance.SetPhase(GamePhase.Discussion);
-//            yield return new WaitForSeconds(60);
-//        StartVoting();
-//        }
-//    private void StartVoting()
-//    {
-//        GameManager.Instance.SetPhase(GamePhase.Voting);
-//        Debug.Log("Voting Start ");
-//    }
-
-//}
-
-// tesst
-public class PhaseManager : MonoBehaviour
+public class PhaseManger : MonoBehaviour
 {
-    public static PhaseManager Instance;
+    public static PhaseManger Instance;
 
     private void Awake()
     {
-        Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void StartRoleReveal()
@@ -71,10 +24,12 @@ public class PhaseManager : MonoBehaviour
 
     private IEnumerator RoleRevealRoutine()
     {
-        GameManager.Instance.SetPhase(GamePhase.RoleReveal);
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.SetPhase(GamePhase.RoleReveal);
+        }
 
         Debug.Log("ROLE REVEAL");
-
         yield return new WaitForSeconds(5);
 
         StartDay();
@@ -87,14 +42,13 @@ public class PhaseManager : MonoBehaviour
 
     private IEnumerator DayRoutine()
     {
-        GameManager.Instance.SetPhase(GamePhase.DayStart);
-
-        Debug.Log(
-            "DAY " + GameManager.Instance.currentDay
-        );
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.SetPhase(GamePhase.DayStart);
+            Debug.Log("DAY " + GameManager.Instance.currentDay);
+        }
 
         yield return new WaitForSeconds(2);
-
         StartDiscussion();
     }
 
@@ -105,10 +59,12 @@ public class PhaseManager : MonoBehaviour
 
     private IEnumerator DiscussionRoutine()
     {
-        GameManager.Instance.SetPhase(GamePhase.Discussion);
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.SetPhase(GamePhase.Discussion);
+        }
 
         Debug.Log("DISCUSSION START");
-
         yield return new WaitForSeconds(60);
 
         StartVoting();
@@ -116,7 +72,10 @@ public class PhaseManager : MonoBehaviour
 
     private void StartVoting()
     {
-        GameManager.Instance.SetPhase(GamePhase.Voting);
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.SetPhase(GamePhase.Voting);
+        }
 
         Debug.Log("VOTING START");
     }
